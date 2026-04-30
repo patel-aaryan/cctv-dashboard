@@ -1,0 +1,25 @@
+# Local environment (NEVER commit)
+.env
+frontend/.env
+frontend/.env.local
+
+# Build artifacts
+backend/cctv-dashboard
+backend/*.exe
+frontend/.svelte-kit/
+frontend/build/
+frontend/node_modules/
+
+# Local data / SQLite
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# Dev
+.vscode/
+.idea/
+*.swp
+.DS_Store
+.claude/
+testdata/

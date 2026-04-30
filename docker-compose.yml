@@ -1,0 +1,31 @@
+# Deploy on the NAS:
+#   1. Copy .env.example to .env and fill in the host-side paths.
+#   2. Replace YOUR_GITHUB_USERNAME below with your GHCR namespace.
+#   3. `docker compose pull && docker compose up -d`
+
+services:
+  dashboard:
+    image: ghcr.io/YOUR_GITHUB_USERNAME/cctv-dashboard:latest
+    container_name: cctv-dashboard
+    restart: unless-stopped
+
+    # Loads CCTV_ARCHIVE_PATH, DB_PATH, API_PORT, CORS_ALLOWED_ORIGIN
+    # into the container's environment. Compose ALSO reads this same file
+    # for ${...} interpolation below (HOST_CCTV_PATH, HOST_DATA_PATH, etc.).
+    env_file: .env
+
+    ports:
+      - "${HOST_PORT:-8080}:${API_PORT:-8080}"
+
+    volumes:
+      # SQLite DB persistence — read/write
+      - "${HOST_DATA_PATH:-./data}:/data"
+      # CCTV footage — strictly read-only
+      - "${HOST_CCTV_PATH}:${CCTV_ARCHIVE_PATH}:ro"
+
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/cctv-dashboard", "-healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

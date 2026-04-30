@@ -1,0 +1,16 @@
+.git/
+.github/
+**/node_modules/
+**/.svelte-kit/
+**/build/
+backend/cctv-dashboard
+data/
+*.db*
+.env
+**/.env
+**/.env.local
+README.md
+LICENSE
+.vscode/
+.idea/
+.DS_Store
