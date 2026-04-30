@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - frontend/**
+      - backend/**
   workflow_dispatch:
 
 jobs:
